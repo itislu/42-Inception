@@ -4,3 +4,34 @@ services:
     build: requirements/nginx
     ports:
       - "443:443"
+    networks:
+      - inception
+    restart: always
+
+  mariadb:
+    container_name: mariadb
+    build: requirements/mariadb
+    volumes:
+      - mariadb-data:/var/lib/mysql
+    networks:
+      - inception
+    restart: always
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_WP_ADMIN=${MYSQL_WP_ADMIN}
+      - MYSQL_WP_ADMIN_PASSWORD=${MYSQL_WP_ADMIN_PASSWORD}
+
+volumes:
+  mariadb-data:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${HOME}/data/mariadb
+      o: bind
+
+networks:
+  inception:
+    driver: bridge
