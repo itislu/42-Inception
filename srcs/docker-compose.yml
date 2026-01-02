@@ -1,7 +1,10 @@
 services:
   nginx:
     image: nginx
-    build: requirements/nginx
+    build:
+      context: requirements/nginx
+      args:
+        - DOMAIN_NAME=${DOMAIN_NAME}
     ports:
       - "443:443"
     volumes:
@@ -9,6 +12,8 @@ services:
     networks:
       - inception
     restart: always
+    environment:
+      - DOMAIN_NAME=${DOMAIN_NAME}
 
   mariadb:
     image: mariadb

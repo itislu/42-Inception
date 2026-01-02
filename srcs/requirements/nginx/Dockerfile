@@ -1,6 +1,9 @@
 FROM alpine:3.22
 
+ARG DOMAIN_NAME
+
 RUN apk add --no-cache \
+	gettext \
 	nginx \
 	openssl
 
@@ -10,8 +13,11 @@ RUN mkdir -p /etc/nginx/ssl
 RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
 	-out /etc/ssl/nginx-selfsigned.crt \
 	-keyout /etc/ssl/nginx-selfsigned.key \
-	-subj "/CN=ldulling.42.fr"
+	-subj "/CN=${DOMAIN_NAME}"
 
-COPY conf/nginx.conf /etc/nginx/nginx.conf
+COPY conf/nginx.conf.template /etc/nginx/nginx.conf.template
+COPY tools/docker-entrypoint.sh /docker-entrypoint.sh
 
-CMD ["nginx", "-g", "daemon off;"]
+RUN chmod +x /docker-entrypoint.sh
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
