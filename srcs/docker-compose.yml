@@ -2,30 +2,34 @@ services:
   mariadb:
     image: mariadb
     build: requirements/mariadb
-    volumes:
-      - mariadb-data:/var/lib/mysql
+    restart: always
     networks:
       - inception
-    restart: always
+    volumes:
+      - mariadb-data:/var/lib/mysql
+    secrets:
+      - db_root_password
+      - db_password
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD_FILE: /run/secrets/db_password
-    secrets:
-      - db_root_password
-      - db_password
 
   wordpress:
     image: wordpress
     build: requirements/wordpress
-    volumes:
-      - wordpress-data:/var/www/html
-    networks:
-      - inception
     restart: always
     depends_on:
       - mariadb
+    networks:
+      - inception
+    volumes:
+      - wordpress-data:/var/www/html
+    secrets:
+      - db_password
+      - wp_admin_password
+      - wp_user_password
     environment:
       DOMAIN_NAME: ${DOMAIN_NAME}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -38,26 +42,26 @@ services:
       WP_USER: ${WP_USER}
       WP_USER_PASSWORD_FILE: /run/secrets/wp_user_password
       WP_USER_EMAIL: ${WP_USER_EMAIL}
-    secrets:
-      - db_password
-      - wp_admin_password
-      - wp_user_password
 
   nginx:
     image: nginx
     build: requirements/nginx
+    restart: always
     ports:
       - "443:443"
-    volumes:
-      - wordpress-data:/var/www/html
     networks:
       - inception
-    restart: always
-    environment:
-      DOMAIN_NAME: ${DOMAIN_NAME}
+    volumes:
+      - wordpress-data:/var/www/html
     secrets:
       - ssl_cert
       - ssl_key
+    environment:
+      DOMAIN_NAME: ${DOMAIN_NAME}
+
+networks:
+  inception:
+    driver: bridge
 
 volumes:
   mariadb-data:
@@ -66,17 +70,12 @@ volumes:
       type: none
       device: ${HOME}/data/mariadb
       o: bind
-
   wordpress-data:
     driver: local
     driver_opts:
       type: none
       device: ${HOME}/data/wordpress
       o: bind
-
-networks:
-  inception:
-    driver: bridge
 
 secrets:
   db_root_password:
