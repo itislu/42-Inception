@@ -1,10 +1,7 @@
 services:
   nginx:
     image: nginx
-    build:
-      context: requirements/nginx
-      args:
-        - DOMAIN_NAME=${DOMAIN_NAME}
+    build: requirements/nginx
     ports:
       - "443:443"
     volumes:
@@ -14,6 +11,9 @@ services:
     restart: always
     environment:
       - DOMAIN_NAME=${DOMAIN_NAME}
+    secrets:
+      - ssl_cert
+      - ssl_key
 
   mariadb:
     image: mariadb
@@ -87,3 +87,7 @@ secrets:
     file: ../secrets/wp_admin_password.txt
   wp_user_password:
     file: ../secrets/wp_user_password.txt
+  ssl_cert:
+    file: ../secrets/ssl_cert.pem
+  ssl_key:
+    file: ../secrets/ssl_key.pem
