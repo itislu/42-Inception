@@ -1,20 +1,4 @@
 services:
-  nginx:
-    image: nginx
-    build: requirements/nginx
-    ports:
-      - "443:443"
-    volumes:
-      - wordpress-data:/var/www/html
-    networks:
-      - inception
-    restart: always
-    environment:
-      - DOMAIN_NAME=${DOMAIN_NAME}
-    secrets:
-      - ssl_cert
-      - ssl_key
-
   mariadb:
     image: mariadb
     build: requirements/mariadb
@@ -58,6 +42,22 @@ services:
       - db_password
       - wp_admin_password
       - wp_user_password
+
+  nginx:
+    image: nginx
+    build: requirements/nginx
+    ports:
+      - "443:443"
+    volumes:
+      - wordpress-data:/var/www/html
+    networks:
+      - inception
+    restart: always
+    environment:
+      - DOMAIN_NAME=${DOMAIN_NAME}
+    secrets:
+      - ssl_cert
+      - ssl_key
 
 volumes:
   mariadb-data:
