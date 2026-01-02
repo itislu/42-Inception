@@ -2,6 +2,9 @@
 
 set -e
 
+MYSQL_ROOT_PASSWORD=$(cat "${MYSQL_ROOT_PASSWORD_FILE}")
+MYSQL_PASSWORD=$(cat "${MYSQL_PASSWORD_FILE}")
+
 if [ ! -d "/var/lib/mysql/mysql" ]; then
 	mariadb-install-db --user=mysql --datadir=/var/lib/mysql
 

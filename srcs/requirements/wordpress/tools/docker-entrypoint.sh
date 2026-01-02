@@ -2,6 +2,10 @@
 
 set -e
 
+MYSQL_PASSWORD=$(cat "${MYSQL_PASSWORD_FILE}")
+WP_ADMIN_PASSWORD=$(cat "${WP_ADMIN_PASSWORD_FILE}")
+WP_USER_PASSWORD=$(cat "${WP_USER_PASSWORD_FILE}")
+
 # Validate wp-admin username.
 admin_lower=$(echo "${WP_ADMIN}" | tr '[:upper:]' '[:lower:]')
 if echo "${admin_lower}" | grep -qE 'admin|administrator'; then
