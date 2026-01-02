@@ -2,6 +2,13 @@
 
 set -e
 
+# Validate wp-admin username.
+admin_lower=$(echo "${WP_ADMIN}" | tr '[:upper:]' '[:lower:]')
+if echo "${admin_lower}" | grep -qE 'admin|administrator'; then
+	echo "Error: Admin username must not contain 'admin' or 'administrator'" >&2
+	exit 1
+fi
+
 if [ ! -f "/var/www/html/wp-config.php" ]; then
 	# Needs to be at runtime to initialize the mounted volume at "/var/www/html".
 	wp core download --allow-root
