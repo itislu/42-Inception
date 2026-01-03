@@ -6,7 +6,6 @@ RUN apk add --no-cache \
 
 COPY conf/nginx.conf.template /etc/nginx/nginx.conf.template
 COPY tools/docker-entrypoint.sh /docker-entrypoint.sh
-
 RUN chmod +x /docker-entrypoint.sh
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
