@@ -35,7 +35,7 @@ cert:
 up: cert
 	@mkdir -p $(WP_DATA)
 	@mkdir -p $(DB_DATA)
-	docker compose --file $(COMPOSE_FILE) up --detach
+	docker compose --file $(COMPOSE_FILE) up --pull never --detach
 
 .PHONY: down
 down:
