@@ -18,4 +18,4 @@ if [ ! -d "/var/lib/mysql/mysql" ]; then
 		EOF
 fi
 
-exec mariadbd --user=mysql --console
+exec "$@"

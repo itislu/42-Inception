@@ -37,4 +37,4 @@ if [ ! -f "/var/www/html/wp-config.php" ]; then
 		--user_pass="${WP_USER_PASSWORD}"
 fi
 
-exec php-fpm83 -F
+exec "$@"

@@ -11,3 +11,4 @@ RUN mkdir -p /run/mysqld && \
 	chown mysql:mysql /run/mysqld
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["mariadbd", "--user=mysql", "--console"]

@@ -23,3 +23,4 @@ RUN chmod +x /docker-entrypoint.sh
 WORKDIR /var/www/html
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["php-fpm83", "-F"]
