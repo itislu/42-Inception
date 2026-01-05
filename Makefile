@@ -59,15 +59,15 @@ logs:
 
 .PHONY: clean
 clean: down
-	docker rmi mariadb nginx wordpress
+	-docker rmi mariadb nginx wordpress
 
 .PHONY: fclean
 fclean:
-	@$(MAKE) --no-print-directory clean || true
-	docker volume rm srcs_mariadb-data srcs_wordpress-data
-	rm -rf $(WP_DATA) 2>/dev/null || sudo rm -rf $(WP_DATA) || true
-	rm -rf $(DB_DATA) 2>/dev/null || sudo rm -rf $(DB_DATA) || true
-	rmdir $(DATA_DIR) 2>/dev/null || true
+	-@$(MAKE) --no-print-directory clean
+	-docker volume rm srcs_mariadb-data srcs_wordpress-data
+	-rm -rf $(WP_DATA) 2>/dev/null || sudo rm -rf $(WP_DATA)
+	-rm -rf $(DB_DATA) 2>/dev/null || sudo rm -rf $(DB_DATA)
+	-rmdir $(DATA_DIR) 2>/dev/null
 
 .PHONY: re
 re: fclean
