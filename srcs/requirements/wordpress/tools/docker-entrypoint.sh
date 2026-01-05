@@ -5,6 +5,20 @@ set -e
 MYSQL_PASSWORD=$(cat "${MYSQL_PASSWORD_FILE}")
 WP_ADMIN_PASSWORD=$(cat "${WP_ADMIN_PASSWORD_FILE}")
 WP_USER_PASSWORD=$(cat "${WP_USER_PASSWORD_FILE}")
+TARGET_URL=https://${DOMAIN_NAME}:${HOST_PORT}
+
+# Update a WordPress option (stored in the database).
+wp_option_update() {
+	key=$1
+	target_value=$2
+	current_value=$(wp option get "$key" --allow-root)
+
+	if [ "$current_value" != "$target_value" ]; then
+		wp option update "$key" "$target_value" --allow-root
+	else
+		echo "Option '$key' is already set to '$target_value'. Skipping."
+	fi
+}
 
 # Validate wp-admin username.
 admin_lower=$(echo "${WP_ADMIN}" | tr '[:upper:]' '[:lower:]')
@@ -35,9 +49,14 @@ if [ ! -f "/var/www/html/wp-config.php" ]; then
 	wp user create "${WP_USER}" "${WP_USER_EMAIL}" \
 		--allow-root \
 		--user_pass="${WP_USER_PASSWORD}"
+
+	# Needed to be able to change the exposed port of the project.
+	wp config set WP_HOME "'https://' . (isset(\$_SERVER['HTTP_HOST']) ? \$_SERVER['HTTP_HOST'] : 'localhost')" --raw --allow-root
+	wp config set WP_SITEURL "'https://' . (isset(\$_SERVER['HTTP_HOST']) ? \$_SERVER['HTTP_HOST'] : 'localhost')" --raw --allow-root
 fi
 
-wp config set WP_HOME "'https://' . (isset(\$_SERVER['HTTP_HOST']) ? \$_SERVER['HTTP_HOST'] : 'localhost')" --raw --allow-root
-wp config set WP_SITEURL "'https://' . (isset(\$_SERVER['HTTP_HOST']) ? \$_SERVER['HTTP_HOST'] : 'localhost')" --raw --allow-root
+# Needed to be able to change the exposed port of the project.
+wp_option_update siteurl "$TARGET_URL"
+wp_option_update home "$TARGET_URL"
 
 exec "$@"
