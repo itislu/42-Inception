@@ -1,4 +1,5 @@
-include srcs/.env
+ENV_FILE := srcs/.env
+include $(ENV_FILE)
 export DOMAIN_NAME
 
 COMPOSE_FILE := srcs/docker-compose.yml
