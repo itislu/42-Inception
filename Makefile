@@ -2,7 +2,7 @@ include srcs/.env
 export DOMAIN_NAME
 
 COMPOSE_FILE := srcs/docker-compose.yml
-DATA_DIR     := /home/ldulling/data
+DATA_DIR     := $(HOME)/data
 WP_DATA      := $(DATA_DIR)/wordpress
 DB_DATA      := $(DATA_DIR)/mariadb
 SECRETS_DIR  := secrets
