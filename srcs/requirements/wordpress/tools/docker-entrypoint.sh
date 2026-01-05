@@ -58,8 +58,8 @@ if [ ! -f "/var/www/html/wp-config.php" ]; then
 	# This fixes some redirect issues of WordPress when the host port is custom.
 	# F.e., "https://example.com:3443/wp-admin" would redirect to "https://example.com/wp-admin" without this ("https://example.com:3443/wp-admin/" does not though).
 	# However, setting these values in the wp-config.php greyes out the site URL settings in the admin panel.
-	# wp config set WP_HOME "'https://' . (isset(\$_SERVER['HTTP_HOST']) ? \$_SERVER['HTTP_HOST'] : 'localhost')" --raw --allow-root
-	# wp config set WP_SITEURL "'https://' . (isset(\$_SERVER['HTTP_HOST']) ? \$_SERVER['HTTP_HOST'] : 'localhost')" --raw --allow-root
+	wp config set WP_HOME "'https://' . (isset(\$_SERVER['HTTP_HOST']) ? \$_SERVER['HTTP_HOST'] : 'localhost')" --raw --allow-root
+	wp config set WP_SITEURL "'https://' . (isset(\$_SERVER['HTTP_HOST']) ? \$_SERVER['HTTP_HOST'] : 'localhost')" --raw --allow-root
 fi
 
 # Needed to be able to change the exposed port of the project.
