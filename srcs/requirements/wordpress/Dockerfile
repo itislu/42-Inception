@@ -2,6 +2,7 @@ FROM alpine:3.22
 
 RUN apk add --no-cache \
 	curl \
+	mariadb-client \
 	php83-ctype \
 	php83-fpm \
 	php83-mbstring \

@@ -27,6 +27,11 @@ if echo "${admin_lower}" | grep -qE 'admin|administrator'; then
 	exit 1
 fi
 
+until mariadb-admin --host=mariadb --user="${MYSQL_USER}" --password="${MYSQL_PASSWORD}" ping --silent; do
+	echo "Waiting for mariadb..."
+	sleep 1
+done
+
 if [ ! -f "/var/www/html/wp-config.php" ]; then
 	# Needs to be at runtime to initialize the mounted volume at "/var/www/html".
 	wp core download --allow-root
