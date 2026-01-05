@@ -57,6 +57,10 @@ restart:
 logs:
 	docker compose --file $(COMPOSE_FILE) logs --follow
 
+.PHONY: ps
+ps:
+	docker compose --file $(COMPOSE_FILE) ps
+
 .PHONY: clean
 clean: down
 	-docker rmi mariadb nginx wordpress
