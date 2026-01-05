@@ -37,4 +37,7 @@ if [ ! -f "/var/www/html/wp-config.php" ]; then
 		--user_pass="${WP_USER_PASSWORD}"
 fi
 
+wp config set WP_HOME "'https://' . (isset(\$_SERVER['HTTP_HOST']) ? \$_SERVER['HTTP_HOST'] : 'localhost')" --raw --allow-root
+wp config set WP_SITEURL "'https://' . (isset(\$_SERVER['HTTP_HOST']) ? \$_SERVER['HTTP_HOST'] : 'localhost')" --raw --allow-root
+
 exec "$@"

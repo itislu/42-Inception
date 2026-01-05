@@ -6,7 +6,8 @@ RUN apk add --no-cache \
 	php83-fpm \
 	php83-mbstring \
 	php83-mysqli \
-	php83-phar
+	php83-phar \
+	php83-tokenizer
 
 # Install WP-CLI
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
