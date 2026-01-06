@@ -18,7 +18,7 @@ until mariadb-admin --host=mariadb --user="${MYSQL_USER}" --password="${MYSQL_PA
 	sleep 1
 done
 
-if [ ! -f "/var/www/html/wp-config.php" ]; then
+if [ ! -f "wp-config.php" ]; then
 	# Needs to be at runtime to initialize the mounted volume at "/var/www/html".
 	wp core download --allow-root
 
