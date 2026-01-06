@@ -19,13 +19,13 @@ ${EDITOR:-nano} srcs/.env
 ```
 
 2) Secrets (passwords): create the files below (one value per file):
-- `secrets/db_root_password.txt`
-- `secrets/db_password.txt`
-- `secrets/wp_admin_password.txt`
-- `secrets/wp_user_password.txt`
+   - `secrets/db_root_password.txt`
+   - `secrets/db_password.txt`
+   - `secrets/wp_admin_password.txt`
+   - `secrets/wp_user_password.txt`
 
 3) Local DNS (optional):
-- Add `127.0.0.1 <DOMAIN_NAME>` to `/etc/hosts`.
+   - Add `127.0.0.1 <DOMAIN_NAME>` to `/etc/hosts`.
 
 ## Common Commands
 ```sh
