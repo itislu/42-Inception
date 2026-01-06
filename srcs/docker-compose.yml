@@ -32,7 +32,6 @@ services:
       - wp_user_password
     environment:
       DOMAIN_NAME: ${DOMAIN_NAME}
-      HOST_PORT: ${HOST_PORT}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD_FILE: /run/secrets/db_password

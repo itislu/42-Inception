@@ -5,20 +5,6 @@ set -e
 MYSQL_PASSWORD=$(cat "${MYSQL_PASSWORD_FILE}")
 WP_ADMIN_PASSWORD=$(cat "${WP_ADMIN_PASSWORD_FILE}")
 WP_USER_PASSWORD=$(cat "${WP_USER_PASSWORD_FILE}")
-TARGET_URL=https://${DOMAIN_NAME}:${HOST_PORT}
-
-# Update a WordPress option (stored in the database).
-wp_option_update() {
-	key=$1
-	target_value=$2
-	current_value=$(wp option get "$key" --allow-root)
-
-	if [ "$current_value" != "$target_value" ]; then
-		wp option update "$key" "$target_value" --allow-root
-	else
-		echo "Option '$key' is already set to '$target_value'. Skipping."
-	fi
-}
 
 # Validate wp-admin username.
 admin_lower=$(echo "${WP_ADMIN}" | tr '[:upper:]' '[:lower:]')
@@ -55,15 +41,11 @@ if [ ! -f "/var/www/html/wp-config.php" ]; then
 		--allow-root \
 		--user_pass="${WP_USER_PASSWORD}"
 
-	# This fixes some redirect issues of WordPress when the host port is custom.
-	# F.e., "https://example.com:3443/wp-admin" would redirect to "https://example.com/wp-admin" without this ("https://example.com:3443/wp-admin/" does not though).
-	# However, setting these values in the wp-config.php greyes out the site URL settings in the admin panel.
-	wp config set WP_HOME "'https://' . (isset(\$_SERVER['HTTP_HOST']) ? \$_SERVER['HTTP_HOST'] : 'localhost')" --raw --allow-root
+	# Make the WP_SITEURL and WP_HOME dynamic based on the HTTP_HOST header.
+	# This makes it easy to change the host port or even the domain.
+	# Setting these values in the wp-config.php greyes out the site URL settings in the admin panel.
 	wp config set WP_SITEURL "'https://' . (isset(\$_SERVER['HTTP_HOST']) ? \$_SERVER['HTTP_HOST'] : 'localhost')" --raw --allow-root
+	wp config set WP_HOME "'https://' . (isset(\$_SERVER['HTTP_HOST']) ? \$_SERVER['HTTP_HOST'] : 'localhost')" --raw --allow-root
 fi
-
-# Needed to be able to change the exposed port of the project.
-wp_option_update siteurl "$TARGET_URL"
-wp_option_update home "$TARGET_URL"
 
 exec "$@"
