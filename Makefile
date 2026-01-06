@@ -3,7 +3,8 @@ MAKEFLAGS += --warn-undefined-variables
 ENV_FILE := srcs/.env
 include $(ENV_FILE)
 
-COMPOSE_FILE := srcs/docker-compose.yml
+COMPOSE_FILE   := srcs/docker-compose.yml
+DOCKER_COMPOSE := docker compose --file $(COMPOSE_FILE)
 
 .PHONY: all
 all: build
@@ -13,7 +14,7 @@ all: build
 build: cert
 	@mkdir -p $(DB_DATA)
 	@mkdir -p $(WP_DATA)
-	docker compose --file $(COMPOSE_FILE) build
+	$(DOCKER_COMPOSE) build
 
 # https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-nginx-in-ubuntu#step-1-creating-the-tls-certificate
 .PHONY: cert
@@ -31,39 +32,39 @@ cert:
 up: cert
 	@mkdir -p $(DB_DATA)
 	@mkdir -p $(WP_DATA)
-	docker compose --file $(COMPOSE_FILE) up --pull never --detach
+	$(DOCKER_COMPOSE) up --pull never --detach
 
 .PHONY: down
 down:
-	docker compose --file $(COMPOSE_FILE) down
+	$(DOCKER_COMPOSE) down
 
 .PHONY: start
 start:
-	docker compose --file $(COMPOSE_FILE) start
+	$(DOCKER_COMPOSE) start
 
 .PHONY: stop
 stop:
-	docker compose --file $(COMPOSE_FILE) stop
+	$(DOCKER_COMPOSE) stop
 
 .PHONY: restart
 restart:
-	docker compose --file $(COMPOSE_FILE) restart
+	$(DOCKER_COMPOSE) restart
 
 .PHONY: logs
 logs:
-	docker compose --file $(COMPOSE_FILE) logs --follow
+	$(DOCKER_COMPOSE) logs --follow
 
 .PHONY: ps
 ps:
-	docker compose --file $(COMPOSE_FILE) ps
+	$(DOCKER_COMPOSE) ps
 
 .PHONY: clean
 clean:
-	docker compose --file $(COMPOSE_FILE) down --rmi all
+	$(DOCKER_COMPOSE) down --rmi all
 
 .PHONY: fclean
 fclean: clean
-	docker compose --file $(COMPOSE_FILE) down --volumes
+	$(DOCKER_COMPOSE) down --volumes
 	-rm -rf $(DB_DATA) 2>/dev/null || sudo rm -rf $(DB_DATA)
 	-rm -rf $(WP_DATA) 2>/dev/null || sudo rm -rf $(WP_DATA)
 	-rmdir $(dir $(DB_DATA) $(WP_DATA)) 2>/dev/null
