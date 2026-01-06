@@ -68,25 +68,25 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: ${HOME}/data/mariadb
+      device: ${DB_DATA}
       o: bind
   wordpress-data:
     driver: local
     driver_opts:
       type: none
-      device: ${HOME}/data/wordpress
+      device: ${WP_DATA}
       o: bind
 
 secrets:
   db_root_password:
-    file: ../secrets/db_root_password.txt
+    file: ${DB_ROOT_PASSWORD_FILE}
   db_password:
-    file: ../secrets/db_password.txt
+    file: ${DB_PASSWORD_FILE}
   wp_admin_password:
-    file: ../secrets/wp_admin_password.txt
+    file: ${WP_ADMIN_PASSWORD_FILE}
   wp_user_password:
-    file: ../secrets/wp_user_password.txt
+    file: ${WP_USER_PASSWORD_FILE}
   ssl_cert:
-    file: ../secrets/ssl_cert.pem
+    file: ${SSL_CERT_PATH}
   ssl_key:
-    file: ../secrets/ssl_key.pem
+    file: ${SSL_KEY_PATH}

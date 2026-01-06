@@ -1,14 +1,9 @@
+MAKEFLAGS += --warn-undefined-variables
+
 ENV_FILE := srcs/.env
 include $(ENV_FILE)
-export DOMAIN_NAME
 
 COMPOSE_FILE := srcs/docker-compose.yml
-DATA_DIR     := $(HOME)/data
-WP_DATA      := $(DATA_DIR)/wordpress
-DB_DATA      := $(DATA_DIR)/mariadb
-SECRETS_DIR  := secrets
-SSL_CERT     := $(SECRETS_DIR)/ssl_cert.pem
-SSL_KEY      := $(SECRETS_DIR)/ssl_key.pem
 
 .PHONY: all
 all: build
@@ -16,26 +11,26 @@ all: build
 
 .PHONY: build
 build: cert
-	@mkdir -p $(WP_DATA)
 	@mkdir -p $(DB_DATA)
+	@mkdir -p $(WP_DATA)
 	docker compose --file $(COMPOSE_FILE) build
 
 # https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-nginx-in-ubuntu#step-1-creating-the-tls-certificate
 .PHONY: cert
 cert:
-	@if [ ! -f $(SSL_CERT) ] || [ ! -f $(SSL_KEY) ]; then \
+	@if [ ! -f ${SSL_CERT_PATH} ] || [ ! -f ${SSL_KEY_PATH} ]; then \
 		echo "Generating self-signed SSL certificate..."; \
-		mkdir -p $(dir $(SSL_CERT) $(SSL_KEY)); \
+		mkdir -p $(dir ${SSL_CERT_PATH} ${SSL_KEY_PATH}); \
 		openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-			-out $(SSL_CERT) \
-			-keyout $(SSL_KEY) \
+			-out $(SSL_CERT_PATH) \
+			-keyout $(SSL_KEY_PATH) \
 			-subj "/CN=$(DOMAIN_NAME)"; \
 	fi
 
 .PHONY: up
 up: cert
-	@mkdir -p $(WP_DATA)
 	@mkdir -p $(DB_DATA)
+	@mkdir -p $(WP_DATA)
 	docker compose --file $(COMPOSE_FILE) up --pull never --detach
 
 .PHONY: down
@@ -70,9 +65,9 @@ clean: down
 fclean:
 	-@$(MAKE) --no-print-directory clean
 	-docker volume rm srcs_mariadb-data srcs_wordpress-data
-	-rm -rf $(WP_DATA) 2>/dev/null || sudo rm -rf $(WP_DATA)
 	-rm -rf $(DB_DATA) 2>/dev/null || sudo rm -rf $(DB_DATA)
-	-rmdir $(DATA_DIR) 2>/dev/null
+	-rm -rf $(WP_DATA) 2>/dev/null || sudo rm -rf $(WP_DATA)
+	-rmdir $(dir $(DB_DATA) $(WP_DATA)) 2>/dev/null
 
 .PHONY: re
 re: fclean
