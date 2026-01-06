@@ -58,13 +58,12 @@ ps:
 	docker compose --file $(COMPOSE_FILE) ps
 
 .PHONY: clean
-clean: down
-	-docker rmi mariadb nginx wordpress
+clean:
+	docker compose --file $(COMPOSE_FILE) down --rmi all
 
 .PHONY: fclean
-fclean:
-	-@$(MAKE) --no-print-directory clean
-	-docker volume rm srcs_mariadb-data srcs_wordpress-data
+fclean: clean
+	docker compose --file $(COMPOSE_FILE) down --volumes
 	-rm -rf $(DB_DATA) 2>/dev/null || sudo rm -rf $(DB_DATA)
 	-rm -rf $(WP_DATA) 2>/dev/null || sudo rm -rf $(WP_DATA)
 	-rmdir $(dir $(DB_DATA) $(WP_DATA)) 2>/dev/null
