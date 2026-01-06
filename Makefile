@@ -16,7 +16,6 @@ build: cert
 	@mkdir -p $(WP_DATA)
 	$(DOCKER_COMPOSE) build
 
-# https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-nginx-in-ubuntu#step-1-creating-the-tls-certificate
 .PHONY: cert
 cert:
 	@if [ ! -f ${SSL_CERT_PATH} ] || [ ! -f ${SSL_KEY_PATH} ]; then \

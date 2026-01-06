@@ -20,7 +20,7 @@ make fclean # removes containers & images + deletes persistent data
 
 ## Access
 - Website: `https://<DOMAIN_NAME>`
-- Admin: `https://<DOMAIN_NAME>/wp-admin`
+- Admin: `https://<DOMAIN_NAME>/wp-admin/`
 
 If the service is running locally, replace `<DOMAIN_NAME>` with `127.0.0.1`.
 
