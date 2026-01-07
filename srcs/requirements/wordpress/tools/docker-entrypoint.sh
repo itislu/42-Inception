@@ -20,7 +20,9 @@ done
 
 if [ ! -f "wp-config.php" ]; then
 	# Needs to be at runtime to initialize the mounted volume at "/var/www/html".
-	wp core download --allow-root
+	wp core download \
+		--allow-root \
+		--version=6.9
 
 	wp config create \
 		--allow-root \
@@ -44,8 +46,12 @@ if [ ! -f "wp-config.php" ]; then
 	# Make the WP_SITEURL and WP_HOME dynamic based on the HTTP_HOST header.
 	# This makes it easy to change the host port or even the domain.
 	# Setting these values in the wp-config.php greyes out the site URL settings in the admin panel.
-	wp config set WP_SITEURL "'https://' . (isset(\$_SERVER['HTTP_HOST']) ? \$_SERVER['HTTP_HOST'] : 'localhost')" --raw --allow-root
-	wp config set WP_HOME "'https://' . (isset(\$_SERVER['HTTP_HOST']) ? \$_SERVER['HTTP_HOST'] : 'localhost')" --raw --allow-root
+	wp config set WP_SITEURL "'https://' . (isset(\$_SERVER['HTTP_HOST']) ? \$_SERVER['HTTP_HOST'] : 'localhost')" \
+		--raw \
+		--allow-root
+	wp config set WP_HOME "'https://' . (isset(\$_SERVER['HTTP_HOST']) ? \$_SERVER['HTTP_HOST'] : 'localhost')" \
+		--raw \
+		--allow-root
 fi
 
 exec "$@"
