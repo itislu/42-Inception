@@ -15,9 +15,7 @@ all: build
 	@$(MAKE) --no-print-directory up
 
 .PHONY: build
-build: cert
-	@mkdir -p $(DB_DATA)
-	@mkdir -p $(WP_DATA)
+build: cert data-dirs
 	$(DOCKER_COMPOSE) build
 
 .PHONY: cert
@@ -31,10 +29,12 @@ cert:
 			-subj "/CN=$(DOMAIN_NAME)"; \
 	fi
 
+.PHONE: data-dirs
+data-dirs:
+	@mkdir -p $(DB_DATA) $(WP_DATA)
+
 .PHONY: up
-up: cert
-	@mkdir -p $(DB_DATA)
-	@mkdir -p $(WP_DATA)
+up: cert data-dirs
 	$(DOCKER_COMPOSE) up --pull never --detach
 
 .PHONY: down
