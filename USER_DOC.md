@@ -42,3 +42,23 @@ This is expected and not concerning for a service running locally. Proceed anywa
 ```sh
 make ps
 ```
+
+## Bonus Services
+
+Bonus services are disabled by default. To enable them, prefix any command with `BONUS=1`:
+```sh
+BONUS=1 make        # build + start with bonus services
+BONUS=1 make logs   # follow logs including bonus services
+```
+
+### Adminer
+A database management interface for MariaDB.
+
+**Access:** `http://localhost:8080`
+
+**Login:**
+- System: `MySQL`
+- Server: `mariadb`
+- Username: Value of `MYSQL_USER` from `srcs/.env`
+- Password: Content of `secrets/db_password.txt`
+- Database: Value of `MYSQL_DATABASE` from `srcs/.env`

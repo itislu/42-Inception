@@ -3,6 +3,7 @@
 ## Repository Layout
 - `srcs/docker-compose.yml`: stack definition (networks, volumes, secrets)
 - `srcs/requirements/{mariadb,wordpress,nginx}/`: Dockerfiles + configs + entrypoints
+- `srcs/requirements/bonus/{adminer}/`: bonus service files
 - `srcs/.env.template`: variables you must fill (create `srcs/.env`)
 - `secrets/`: password files and generated TLS keypair (git-ignored)
 
@@ -43,6 +44,7 @@ The services are called:
 - `mariadb`
 - `wordpress`
 - `nginx`
+- `adminer` (bonus)
 
 ### Container Commands
 

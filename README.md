@@ -17,6 +17,9 @@ This project uses **Docker** to containerize three core services:
 - **MariaDB**: Database server for WordPress
 - **WordPress**: PHP-FPM based CMS
 
+Additionally, there is one bonus service:
+- **Adminer**: Database management interface
+
 This stack is defined in [srcs/docker-compose.yml](srcs/docker-compose.yml) and built from the sources in `srcs/requirements/*`:
 - `Dockerfile`: install minimal packages (all images use Alpine Linux as base image)
 - `conf/`: service configuration (nginx, mariadb, php-fpm)
