@@ -1,5 +1,4 @@
 #!/bin/sh
-
 set -e
 
 MYSQL_ROOT_PASSWORD=$(cat "${MYSQL_ROOT_PASSWORD_FILE}")
