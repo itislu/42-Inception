@@ -72,6 +72,23 @@ services:
     networks:
       - inception
 
+  cadvisor:
+    image: cadvisor
+    build: requirements/bonus/cadvisor
+    restart: always
+    profiles:
+      - bonus
+    ports:
+      - 8081:8080
+    networks:
+      - inception
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+
 networks:
   inception:
     driver: bridge

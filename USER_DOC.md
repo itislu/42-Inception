@@ -62,3 +62,8 @@ A database management interface for MariaDB.
 - Username: Value of `MYSQL_USER` from `srcs/.env`
 - Password: Content of `secrets/db_password.txt`
 - Database: Value of `MYSQL_DATABASE` from `srcs/.env`
+
+### cAdvisor
+Monitors resource usage of running containers.
+
+**Access:** `http://localhost:8082`

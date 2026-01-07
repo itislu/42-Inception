@@ -19,6 +19,7 @@ This project uses **Docker** to containerize three core services:
 
 Additionally, there is one bonus service:
 - **Adminer**: Database management interface
+- **cAdvisor**: Container resource usage monitoring
 
 This stack is defined in [srcs/docker-compose.yml](srcs/docker-compose.yml) and built from the sources in `srcs/requirements/*`:
 - `Dockerfile`: install minimal packages (all images use Alpine Linux as base image)
@@ -59,6 +60,7 @@ This stack is defined in [srcs/docker-compose.yml](srcs/docker-compose.yml) and 
 - WordPress: https://make.wordpress.org/hosting/handbook/server-environment/
 - WP-CLI: https://wp-cli.org/#installing
 - PHP-FPM: https://serverfault.com/questions/907465/rules-for-a-valid-pool-d-www-conf-file-for-php-fpm
+- cAdvisor: https://github.com/google/cadvisor
 - Self-signed SSL certificate: https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-nginx-in-ubuntu#step-1-creating-the-tls-certificate
 - 42 Inception guide: https://medium.com/@ssterdev/inception-guide-42-project-part-i-7e3af15eb671
 - Similar, more correct guide: https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-with-docker-compose
