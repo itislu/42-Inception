@@ -1,5 +1,7 @@
 FROM alpine:3.22
 
+ARG ADMINER_VERSION=5.4.1
+
 RUN apk add --no-cache \
     php83 \
     php83-mysqli \
@@ -7,7 +9,7 @@ RUN apk add --no-cache \
 
 WORKDIR /var/www/html
 
-ADD https://github.com/vrana/adminer/releases/download/v5.4.1/adminer-5.4.1.php \
+ADD https://github.com/vrana/adminer/releases/download/v${ADMINER_VERSION}/adminer-${ADMINER_VERSION}.php \
     index.php
 
 # Start the built-in PHP web server on port 8080.
