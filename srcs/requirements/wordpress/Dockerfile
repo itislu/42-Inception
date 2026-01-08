@@ -1,5 +1,7 @@
 FROM alpine:3.22
 
+ARG WP_CLI_VERSION=2.12.0
+
 # https://make.wordpress.org/hosting/handbook/server-environment/#php-extensions
 RUN apk add --no-cache \
 	mariadb-client \
@@ -23,12 +25,12 @@ RUN apk add --no-cache \
 	php83-xml \
 	php83-zip
 
-# Install WP-CLI
-ADD --chmod=755 https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
-	/usr/local/bin/wp
-
 # Default memory limit of 128M is not enough for WP-CLI.
 RUN sed -i 's/memory_limit = .*/memory_limit = 512M/' /etc/php83/php.ini
+
+# Install WP-CLI.
+ADD --chmod=755 https://github.com/wp-cli/wp-cli/releases/download/v${WP_CLI_VERSION}/wp-cli-${WP_CLI_VERSION}.phar \
+	/usr/local/bin/wp
 
 COPY conf/www.conf /etc/php83/php-fpm.d/www.conf
 COPY --chmod=755 tools/docker-entrypoint.sh /docker-entrypoint.sh
