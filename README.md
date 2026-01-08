@@ -64,6 +64,7 @@ This stack is defined in [srcs/docker-compose.yml](srcs/docker-compose.yml) and 
 - Self-signed SSL certificate: https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-nginx-in-ubuntu#step-1-creating-the-tls-certificate
 - 42 Inception guide: https://medium.com/@ssterdev/inception-guide-42-project-part-i-7e3af15eb671
 - Similar, more correct guide: https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-with-docker-compose
+- "How can Docker run distros with different kernels?": https://stackoverflow.com/questions/32841982/how-can-docker-run-distros-with-different-kernels
 
 ### AI Usage
 - GitHub Copilot (Claude Sonnet 4.5): Generate initial minimal config files of applications I have never *really* used before (Nginx, MariaDB, WordPress, PHP-FPM) to see what is needed and reduce the scope of research.
