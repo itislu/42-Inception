@@ -3,8 +3,8 @@ MAKEFLAGS += --warn-undefined-variables
 ENV_FILE := srcs/.env
 include $(ENV_FILE)
 
-DOCKER_COMPOSE        := docker compose
-export COMPOSE_FILE   := srcs/docker-compose.yml
+DOCKER_COMPOSE := docker compose
+export COMPOSE_FILE := srcs/docker-compose.yml
 
 ifdef BONUS
 export COMPOSE_PROFILES := bonus
