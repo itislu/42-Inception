@@ -66,4 +66,4 @@ A database management interface for MariaDB.
 ### cAdvisor
 Monitors resource usage of running containers.
 
-**Access:** `http://localhost:8082`
+**Access:** `http://localhost:8081`
